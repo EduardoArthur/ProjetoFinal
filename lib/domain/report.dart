@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tcc/domain/enumeration/AnimalKind.dart';
 
 class Report {
-  String animalId;
+  AnimalKind animalKind;
   String? userId;
   String? ongId;
   GeoPoint location;
@@ -10,7 +11,7 @@ class Report {
   Timestamp? timestamp;
 
   Report({
-    required this.animalId,
+    required this.animalKind,
     this.userId,
     this.ongId,
     required this.location,
@@ -22,7 +23,7 @@ class Report {
   factory Report.fromMap(Map<String, dynamic>? data) {
 
     return Report(
-      animalId: data?['animalId'],
+      animalKind: data?['animalKind'],
       userId: data?['userId'],
       ongId: data?['ongId'],
       location: data?['location'],
@@ -37,7 +38,7 @@ class Report {
     final data = snapshot.data() as Map<String, dynamic>?;
 
     return Report(
-      animalId: data?['animalId'],
+      animalKind: data?['animalKind'],
       userId: data?['userId'],
       ongId: data?['ongId'],
       location: data?['location'],
@@ -49,7 +50,7 @@ class Report {
 
   Map<String, dynamic> toFirestore() {
     return {
-      'animalId': animalId,
+      'animalKind': animalKind,
       'userId': userId,
       'ongId': ongId,
       'location': location,
