@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:latlong2/latlong.dart';
+
+import 'package:tcc/domain/enumeration/AnimalKind.dart';
 import 'package:tcc/domain/report.dart';
 import 'package:tcc/domain/user.dart';
 import 'package:tcc/repository/user_repository.dart';
@@ -8,8 +12,17 @@ class ReportService {
   final reportRepository = ReportRepository();
 
   // Metodo para gerar timestamp, ids, etc..
-  buildNewReport(){
+  Report buildNewReport(User user, LatLng location, AnimalKind animalKind, String message){
 
+    var geoPoint = GeoPoint(location.latitude, location.longitude);
+
+    Report report = Report(animalKind: animalKind.name, location: geoPoint);
+
+    report.userId = user.id;
+    report.message = message;
+    report.timestamp = Timestamp.now();
+
+    return report;
   }
 
   createNewReport(Report report, User user) async {

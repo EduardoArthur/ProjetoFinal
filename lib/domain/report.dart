@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tcc/domain/enumeration/AnimalKind.dart';
 
 class Report {
-  AnimalKind animalKind;
+  String animalKind;
   String? userId;
   String? ongId;
   GeoPoint location;
