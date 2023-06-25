@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geoflutterfire2/geoflutterfire2.dart';
+import 'package:tcc/domain/enumeration/AnimalKind.dart';
 
 import 'package:tcc/domain/report.dart';
-import 'package:tcc/domain/user.dart';
 
 class ReportRepository {
   final CollectionReference reportsCollection =
@@ -41,6 +42,31 @@ class ReportRepository {
     }
 
     return null;
+  }
+
+  Future<List<Report>> findUnsolvedReports() async {
+
+    final query = reportsCollection
+        .where('solved', isEqualTo: false)
+        .orderBy('location');
+
+    final QuerySnapshot snapshot = await query.get();
+    final List<Report> reports = snapshot.docs.map((doc) => Report.fromFirestore(doc)).toList();
+
+    return reports;
+  }
+
+  Future<List<Report>> findUnsolvedReportsByAnimalKind(AnimalKind animalKind) async {
+
+    final query = reportsCollection
+        .where('solved', isEqualTo: false)
+        .where('animalKind', isEqualTo: animalKind.name)
+        .orderBy('location');
+
+    final QuerySnapshot snapshot = await query.get();
+    final List<Report> reports = snapshot.docs.map((doc) => Report.fromFirestore(doc)).toList();
+
+    return reports;
   }
 
 }

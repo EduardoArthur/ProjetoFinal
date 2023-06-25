@@ -55,5 +55,23 @@ class ReportService {
     }
   }
 
+  Future<List<Report>> getUnsolvedReports(AnimalKind? animalKind) async {
+    if(animalKind == null) {
+      return await reportRepository.findUnsolvedReports();
+    }
+
+    return await reportRepository.findUnsolvedReportsByAnimalKind(animalKind);
+  }
+
+  Future<Iterable> getAllReports() async {
+
+    final reports = await reportRepository.getAllReports();
+
+    print(reports);
+
+    return reports;
+
+  }
+
 
 }

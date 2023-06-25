@@ -1,22 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:location/location.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:tcc/domain/report.dart';
-import 'package:tcc/domain/user.dart';
 
 import 'package:tcc/services/report_service.dart';
 
 import 'package:tcc/widgets/common_buttons.dart';
-import 'package:tcc/widgets/report_dialog.dart';
 
-class ReportLostAnimal extends StatefulWidget {
+class FindAnimals extends StatefulWidget {
   @override
-  _ReportLostAnimalState createState() => _ReportLostAnimalState();
+  _FindAnimals createState() => _FindAnimals();
 }
 
-class _ReportLostAnimalState extends State<ReportLostAnimal> {
+class _FindAnimals extends State<FindAnimals> {
 
 // =============================================================================
 //                          Services and Widgets
@@ -33,7 +32,6 @@ class _ReportLostAnimalState extends State<ReportLostAnimal> {
   List<Marker> markers = [];
   bool showForm = false;
   bool showButton = true;
-  late User userTeste;
 
 // =============================================================================
 //                          Init State and Build
@@ -43,11 +41,7 @@ class _ReportLostAnimalState extends State<ReportLostAnimal> {
   void initState() {
     super.initState();
     getCurrentLocation();
-    getUser();
-  }
-
-  void getUser() {
-    userTeste = User(id: 'docIdTeste', name: 'teste', email: 'teste@teste.com');
+    getReports();
   }
 
   @override
@@ -65,8 +59,6 @@ class _ReportLostAnimalState extends State<ReportLostAnimal> {
         children: [
           displayMap(),
           commonButtons.displayHomeButton(context),
-          if (showButton) displayReportButton(),
-          if (showForm) showReportDialog(context),
         ],
       ),
     );
@@ -79,8 +71,7 @@ class _ReportLostAnimalState extends State<ReportLostAnimal> {
   Widget displayMap() {
     return FlutterMap(
       options: MapOptions(
-        onTap: (tapPosition, tappedLatLng) =>
-            handleMapTap(tapPosition, tappedLatLng),
+
         center: LatLng(currentLocation?.latitude ?? 0.0,
             currentLocation?.longitude ?? 0.0),
         zoom: 16.5,
@@ -99,11 +90,11 @@ class _ReportLostAnimalState extends State<ReportLostAnimal> {
   List<CircleMarker> buildCircleMarkers() {
     return markers.map((marker) {
       final point = marker.point;
-      const circleRadius = 50.0;
+      const circleRadius = 50.0; // Adjust the radius as desired
       return CircleMarker(
         point: point,
         color: Colors.blue
-            .withOpacity(0.3),
+            .withOpacity(0.3), // Adjust the color and opacity as desired
         borderStrokeWidth: 1.5,
         borderColor: Colors.blue,
         radius: circleRadius,
@@ -115,98 +106,67 @@ class _ReportLostAnimalState extends State<ReportLostAnimal> {
 //                               Dialogs
 // =============================================================================
 
-  Widget showReportDialog(BuildContext context) {
-    return ReportDialog(
-      onSubmit: (selectedAnimalKind, description) {
-
-        // Build and save a new report
-        Report report = reportService.buildNewReport(
-            userTeste, markers.last.point, selectedAnimalKind!, description);
-        reportService.createNewReport(report, userTeste);
-
-        // Close the dialog
-        closeForm();
-
-        // Show success message
-        showSuccessMessage(context);
-      },
-      onCancel: () {
-        closeForm();
-      },
-    );
-  }
-
-  void showSuccessMessage(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Denuncia registrada com sucesso!'),
-        backgroundColor: Colors.green,
-      ),
-    );
-  }
+  // Widget showReportDialog(BuildContext context) {
+  //   return ReportDialog(
+  //     onSubmit: (selectedAnimalKind, description) {
+  //
+  //       // Build and save a new report
+  //       Report report = reportService.buildNewReport(
+  //           userTeste, markers.last.point, selectedAnimalKind!, description);
+  //       reportService.createNewReport(report, userTeste);
+  //
+  //       // Close the dialog
+  //       closeForm();
+  //
+  //       // Show success message
+  //       showSuccessMessage(context);
+  //     },
+  //     onCancel: () {
+  //       closeForm();
+  //     },
+  //   );
+  // }
+  //
+  // void showSuccessMessage(BuildContext context) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(
+  //       content: Text('Denuncia registrada com sucesso!'),
+  //       backgroundColor: Colors.green,
+  //     ),
+  //   );
+  // }
 
 // =============================================================================
 //                              Buttons
 // =============================================================================
 
-  Widget displayReportButton() {
-    bool isButtonDisabled = markers.isEmpty;
-
-    return Positioned(
-      top: 16.0,
-      right: 16.0,
-      child: ElevatedButton(
-        onPressed: isButtonDisabled ? null : openForm,
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.disabled)) {
-                return Colors.grey; // Set disabled button color
-              }
-              return Colors.blue; // Set enabled button color
-            },
-          ),
-        ),
-        child: const Text('Denunciar'),
-      ),
-    );
-  }
+  // Widget displayReportButton() {
+  //   bool isButtonDisabled = markers.isEmpty;
+  //
+  //   return Positioned(
+  //     top: 16.0,
+  //     right: 16.0,
+  //     child: ElevatedButton(
+  //       onPressed: isButtonDisabled ? null : openForm,
+  //       style: ButtonStyle(
+  //         backgroundColor: MaterialStateProperty.resolveWith<Color>(
+  //               (Set<MaterialState> states) {
+  //             if (states.contains(MaterialState.disabled)) {
+  //               return Colors.grey; // Set disabled button color
+  //             }
+  //             return Colors.blue; // Set enabled button color
+  //           },
+  //         ),
+  //       ),
+  //       child: const Text('Denunciar'),
+  //     ),
+  //   );
+  // }
 
 // =============================================================================
 //                             Functions
 // =============================================================================
 
-  // Set state controller for popup and button
-
-  // if the form is being displayed, the button must be hidden
-  void openForm() {
-    setState(() {
-      showForm = true;
-      showButton = false;
-    });
-  }
-
-  // if the form is closed, the button must be displayed
-  void closeForm() {
-    setState(() {
-      showForm = false;
-      showButton = true;
-    });
-  }
-
-  // Set marker on taped position
-  void handleMapTap(TapPosition? tapPosition, LatLng tappedLatLng) {
-    setState(() {
-      markers = [
-        Marker(
-          width: 80.0,
-          height: 80.0,
-          point: tappedLatLng,
-          builder: (ctx) => const Icon(Icons.location_on, color: Colors.red),
-        ),
-      ];
-    });
-  }
 
   // Get user phone current location if given access
   Future<void> getCurrentLocation() async {
@@ -226,6 +186,32 @@ class _ReportLostAnimalState extends State<ReportLostAnimal> {
     } catch (e) {
       print('Error getting current location: $e');
     }
+  }
+
+  Future<void> getReports() async {
+
+    final location = GeoPoint(currentLocation?.latitude ?? 0.0, currentLocation?.longitude ?? 0.0);
+
+    // List<Report> reports = await reportService.getNearbyReports(location);
+
+    final reports = await reportService.getUnsolvedReports(null);
+
+    print(reports.toString());
+
+    reports.forEach((it) {
+      Report report = it;
+      setState(() {
+        markers.add(
+          Marker(
+            width: 80.0,
+            height: 80.0,
+            point: LatLng(report.location.latitude, report.location.longitude),
+            builder: (ctx) => const Icon(Icons.location_on, color: Colors.red),
+          ),
+        );
+      });
+    });
+
   }
 
 }
