@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tcc/widgets/report_list_screen.dart';
-import 'package:tcc/widgets/find_animals.dart';
+import 'package:tcc/widgets/my_reports.dart';
 
 import 'report_lost_animal.dart';
 
@@ -90,39 +90,6 @@ class HomePage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => FindAnimals(),
-          ),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
-        backgroundColor: buttonColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
-      ),
-      icon: const Icon(
-        Icons.search,
-        size: iconSize,
-        color: labelColor,
-      ),
-      label: const Text(
-        'Exibir Denuncias',
-        style: TextStyle(
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          color: labelColor,
-        ),
-      ),
-    );
-  }
-
-  Widget mostrarLista(BuildContext context) {
-    return ElevatedButton.icon(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
             builder: (context) => ReportListScreen(),
           ),
         );
@@ -140,7 +107,40 @@ class HomePage extends StatelessWidget {
         color: labelColor,
       ),
       label: const Text(
-        'mostrar lista',
+        'Buscar Denuncias',
+        style: TextStyle(
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+          color: labelColor,
+        ),
+      ),
+    );
+  }
+
+  Widget mostrarLista(BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyReports(),
+          ),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        backgroundColor: buttonColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      ),
+      icon: const Icon(
+        Icons.report,
+        size: iconSize,
+        color: labelColor,
+      ),
+      label: const Text(
+        'Minhas Denuncias',
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,

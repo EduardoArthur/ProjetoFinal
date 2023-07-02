@@ -63,11 +63,9 @@ class ReportService {
     return await reportRepository.findUnsolvedReportsByAnimalKind(animalKind);
   }
 
-  Future<Iterable> getAllReports() async {
+  Future<List<Report>> getReportsByUser(User user) async {
 
-    final reports = await reportRepository.getAllReports();
-
-    print(reports);
+    final reports = await reportRepository.findReportsByUser(user.id!);
 
     return reports;
 

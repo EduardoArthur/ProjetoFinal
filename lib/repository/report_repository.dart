@@ -69,4 +69,16 @@ class ReportRepository {
     return reports;
   }
 
+  Future<List<Report>> findReportsByUser(String userId) async {
+
+    final query = reportsCollection
+        .where('userId', isEqualTo: userId);
+        // .orderBy('location');
+
+    final QuerySnapshot snapshot = await query.get();
+    final List<Report> reports = snapshot.docs.map((doc) => Report.fromFirestore(doc)).toList();
+
+    return reports;
+  }
+
 }
