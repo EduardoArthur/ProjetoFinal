@@ -1,15 +1,26 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tcc/pages/login_page.dart';
 
-import 'home_page.dart';
+import '../pages/home_page.dart';
 
 
 class CommonButtons {
 
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   void navigateToMainMenuScreen(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomePage()),
-    );
+    if(_auth.currentUser == null){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    }
   }
 
   Widget displayHomeButton(BuildContext context) {

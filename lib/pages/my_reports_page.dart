@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 import 'package:tcc/domain/report.dart';
 import 'package:tcc/services/report_service.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -9,13 +11,14 @@ import 'package:tcc/util/location_util.dart';
 import 'package:tcc/widgets/report_details.dart';
 
 import '../domain/enumeration/AnimalKind.dart';
+import '../services/auth_service.dart';
 
-class ReportListScreen extends StatefulWidget {
+class MyReportsPage extends StatefulWidget {
   @override
-  _ReportListScreenState createState() => _ReportListScreenState();
+  _MyReportsPageState createState() => _MyReportsPageState();
 }
 
-class _ReportListScreenState extends State<ReportListScreen> {
+class _MyReportsPageState extends State<MyReportsPage> {
 // =============================================================================
 //                          Services and Widgets
 // =============================================================================
@@ -31,7 +34,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
 
   AnimalKind? selectedAnimalKind;
   List<Report> reports = [];
-  late LocationData currentLocation;
+  LocationData? currentLocation;
   List<Marker> markers = [];
 
 // =============================================================================
@@ -45,42 +48,13 @@ class _ReportListScreenState extends State<ReportListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    getUser();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Report List'),
+        title: const Text('Minhas Denuncias'),
       ),
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      fetchReports(null);
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Icon(Icons.search),
-                        SizedBox(width: 8),
-                        Text('Buscar'),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    showFilterDialog();
-                  },
-                  icon: const Icon(Icons.filter_list),
-                  label: const Text('Filtros'),
-                ),
-              ],
-            ),
-          ),
           Expanded(
             child: ListView.builder(
               itemCount: reports.length,
@@ -92,12 +66,14 @@ class _ReportListScreenState extends State<ReportListScreen> {
                     style: const TextStyle(),
                   ),
                   subtitle: Text(
-                      ' ${report.message}\n Distancia: ${locationUtil.formatAndCalculateDistance(currentLocation, report.location)}'),
+                      ' ${report.message}\n Distancia: ${locationUtil.formatAndCalculateDistance(currentLocation!, report.location)}'),
                   onTap: () {
                     markLocation(
                         conversionUtil.geoPointToLatLng(report.location));
-                    reportDetails.openReportDetails(
-                        context, report, currentLocation, markers);
+                    if(currentLocation != null) {
+                      reportDetails.openReportDetails(
+                          context, report, currentLocation!, markers);
+                    }
                   },
                 );
               },
@@ -112,7 +88,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
 //                               Dialogs
 // =============================================================================
 
-  void showFilterDialog() {
+  void showFilterDialog(User? user) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -145,7 +121,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
             ),
             TextButton(
               onPressed: () {
-                fetchReports(selectedAnimalKind);
+                fetchReports(user);
                 Navigator.of(context).pop();
               },
               child: const Text('Filtrar'),
@@ -180,13 +156,20 @@ class _ReportListScreenState extends State<ReportListScreen> {
     }
   }
 
-  Future<void> fetchReports(AnimalKind? animalKind) async {
+  getUser() {
+    if(currentLocation != null && reports.isEmpty) {
+      AuthService auth = Provider.of<AuthService>(context);
+      fetchReports(auth.usuario);
+    }
+  }
+
+  Future<void> fetchReports(User? user) async {
     List<Report> unsolvedReports =
-        await reportService.getUnsolvedReports(animalKind);
+    await reportService.getReportsByUser(user);
 
     if (currentLocation != null) {
       unsolvedReports = locationUtil.sortReportsByDistanceFromLocation(
-          unsolvedReports, currentLocation);
+          unsolvedReports, currentLocation!);
     }
 
     setState(() {

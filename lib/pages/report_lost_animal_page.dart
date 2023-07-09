@@ -1,22 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:location/location.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tcc/domain/report.dart';
-import 'package:tcc/domain/user.dart';
 
 import 'package:tcc/services/report_service.dart';
+import '../services/auth_service.dart';
 
 import 'package:tcc/widgets/common_buttons.dart';
 import 'package:tcc/widgets/report_dialog.dart';
 
-class ReportLostAnimal extends StatefulWidget {
+class ReportLostAnimalPage extends StatefulWidget {
   @override
-  _ReportLostAnimalState createState() => _ReportLostAnimalState();
+  _ReportLostAnimalPageState createState() => _ReportLostAnimalPageState();
 }
 
-class _ReportLostAnimalState extends State<ReportLostAnimal> {
+class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
 
 // =============================================================================
 //                          Services and Widgets
@@ -33,7 +35,6 @@ class _ReportLostAnimalState extends State<ReportLostAnimal> {
   List<Marker> markers = [];
   bool showForm = false;
   bool showButton = true;
-  late User userTeste;
 
 // =============================================================================
 //                          Init State and Build
@@ -43,30 +44,26 @@ class _ReportLostAnimalState extends State<ReportLostAnimal> {
   void initState() {
     super.initState();
     getCurrentLocation();
-    getUser();
-  }
-
-  void getUser() {
-    userTeste = User(id: 'docIdTeste', name: 'teste', email: 'teste@teste.com');
   }
 
   @override
   Widget build(BuildContext context) {
+    AuthService auth = Provider.of<AuthService>(context);
     return currentLocation != null
-        ? buildMap(context)
+        ? buildMap(context, auth.usuario)
         : const Center(
         child:
         CircularProgressIndicator()); // Show a progress indicator while fetching the location
   }
 
-  Widget buildMap(BuildContext context) {
+  Widget buildMap(BuildContext context, User? user) {
     return Scaffold(
       body: Stack(
         children: [
           displayMap(),
           commonButtons.displayHomeButton(context),
           if (showButton) displayReportButton(),
-          if (showForm) showReportDialog(context),
+          if (showForm) showReportDialog(context, user),
         ],
       ),
     );
@@ -115,14 +112,14 @@ class _ReportLostAnimalState extends State<ReportLostAnimal> {
 //                               Dialogs
 // =============================================================================
 
-  Widget showReportDialog(BuildContext context) {
+  Widget showReportDialog(BuildContext context, User? user) {
     return ReportDialog(
       onSubmit: (selectedAnimalKind, description) {
 
         // Build and save a new report
         Report report = reportService.buildNewReport(
-            userTeste, markers.last.point, selectedAnimalKind!, description);
-        reportService.createNewReport(report, userTeste);
+          user, markers.last.point, selectedAnimalKind!, description);
+        reportService.createNewReport(report, user);
 
         // Close the dialog
         closeForm();

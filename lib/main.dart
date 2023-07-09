@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:tcc/widgets/home_page.dart';
+import 'package:provider/provider.dart';
+import 'package:tcc/services/auth_service.dart';
+import 'package:tcc/widgets/auth_check.dart';
 
 import 'config/app_config.dart';
 
 void main() async {
   await SystemConfig.initialize();
   // await SystemConfig.runTests();
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthService()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: AuthCheck(),
     );
   }
 }

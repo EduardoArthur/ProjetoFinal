@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tcc/widgets/report_list_screen.dart';
-import 'package:tcc/widgets/my_reports.dart';
+import 'package:provider/provider.dart';
 
-import 'report_lost_animal.dart';
+import 'package:tcc/pages/search_reports_page.dart';
+import 'package:tcc/pages/my_reports_page.dart';
+import 'package:tcc/pages/report_lost_animal_page.dart';
+import 'package:tcc/services/auth_service.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -25,6 +27,13 @@ class HomePage extends StatelessWidget {
   // Space between buttons
   static const sizedBoxHeight = 24.0;
 
+  // Labels
+  static const labelReportLostAnimalPage = 'Reportar Animal Abandonado';
+  static const labelSearchReportsPage    = 'Buscar Denuncias';
+  static const labelMyReportsPage        = 'Minhas Denuncias';
+  static const labelLogOut               = 'Sair';
+
+
 // =============================================================================
 //                              Build
 // =============================================================================
@@ -45,6 +54,8 @@ class HomePage extends StatelessWidget {
             exibirDenuncias(context),
             const SizedBox(height: sizedBoxHeight),
             mostrarLista(context),
+            const SizedBox(height: sizedBoxHeight),
+            logOut(context),
           ],
         ),
       ),
@@ -57,7 +68,7 @@ class HomePage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ReportLostAnimal(),
+            builder: (context) => ReportLostAnimalPage(),
           ),
         );
       },
@@ -73,8 +84,7 @@ class HomePage extends StatelessWidget {
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(
-        'Reportar animal',
+      label: const Text(labelReportLostAnimalPage,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,
@@ -90,7 +100,7 @@ class HomePage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ReportListScreen(),
+            builder: (context) => SearchReportsPage(),
           ),
         );
       },
@@ -106,8 +116,7 @@ class HomePage extends StatelessWidget {
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(
-        'Buscar Denuncias',
+      label: const Text(labelSearchReportsPage,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,
@@ -123,7 +132,7 @@ class HomePage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MyReports(),
+            builder: (context) => MyReportsPage(),
           ),
         );
       },
@@ -139,8 +148,32 @@ class HomePage extends StatelessWidget {
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(
-        'Minhas Denuncias',
+      label: const Text(labelMyReportsPage,
+        style: TextStyle(
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+          color: labelColor,
+        ),
+      ),
+    );
+  }
+
+  Widget logOut(BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: () => context.read<AuthService>().logout(),
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        backgroundColor: Colors.red,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      ),
+      icon: const Icon(
+        Icons.logout,
+        size: iconSize,
+        color: labelColor,
+      ),
+      label: const Text(labelLogOut,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,

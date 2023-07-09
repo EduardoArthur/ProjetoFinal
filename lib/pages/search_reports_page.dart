@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:tcc/domain/report.dart';
-import 'package:tcc/domain/user.dart';
-import 'package:tcc/repository/user_repository.dart';
 import 'package:tcc/services/report_service.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:tcc/util/conversion_util.dart';
@@ -12,12 +10,12 @@ import 'package:tcc/widgets/report_details.dart';
 
 import '../domain/enumeration/AnimalKind.dart';
 
-class MyReports extends StatefulWidget {
+class SearchReportsPage extends StatefulWidget {
   @override
-  _MyReportsState createState() => _MyReportsState();
+  _SearchReportsPageState createState() => _SearchReportsPageState();
 }
 
-class _MyReportsState extends State<MyReports> {
+class _SearchReportsPageState extends State<SearchReportsPage> {
 // =============================================================================
 //                          Services and Widgets
 // =============================================================================
@@ -26,7 +24,6 @@ class _MyReportsState extends State<MyReports> {
   final ConversionUtil conversionUtil = ConversionUtil();
   final LocationUtil locationUtil = LocationUtil();
   final ReportDetails reportDetails = ReportDetails();
-  final UserRepository userRepository = UserRepository();
 
 // =============================================================================
 //                              Variables
@@ -36,7 +33,6 @@ class _MyReportsState extends State<MyReports> {
   List<Report> reports = [];
   late LocationData currentLocation;
   List<Marker> markers = [];
-  late User user;
 
 // =============================================================================
 //                          Init State and Build
@@ -51,25 +47,25 @@ class _MyReportsState extends State<MyReports> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Report List'),
+        title: const Text('Buscar Denuncias'),
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      fetchReports();
+                      fetchReports(null);
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: const [
                         Icon(Icons.search),
                         SizedBox(width: 8),
-                        Text('Buscar'),
+                        Text('Buscar Todas'),
                       ],
                     ),
                   ),
@@ -80,7 +76,7 @@ class _MyReportsState extends State<MyReports> {
                     showFilterDialog();
                   },
                   icon: const Icon(Icons.filter_list),
-                  label: const Text('Filtros'),
+                  label: const Text('Filtrar'),
                 ),
               ],
             ),
@@ -149,7 +145,7 @@ class _MyReportsState extends State<MyReports> {
             ),
             TextButton(
               onPressed: () {
-                fetchReports();
+                fetchReports(selectedAnimalKind);
                 Navigator.of(context).pop();
               },
               child: const Text('Filtrar'),
@@ -170,14 +166,11 @@ class _MyReportsState extends State<MyReports> {
 
     try {
       final permissionStatus = await location.requestPermission();
-      // TESTE APENAS REMOVER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      final userTeste = await userRepository.findUserById("docIdTeste");
 
       if (permissionStatus == PermissionStatus.granted) {
         final currentLocationData = await location.getLocation();
         setState(() {
           currentLocation = currentLocationData;
-          user = userTeste!;
         });
       } else {
         print('Location permission not granted');
@@ -187,18 +180,22 @@ class _MyReportsState extends State<MyReports> {
     }
   }
 
-  Future<void> fetchReports() async {
-    List<Report> unsolvedReports =
-    await reportService.getReportsByUser(user);
+  Future<void> fetchReports(AnimalKind? animalKind) async {
+    try {
+      List<Report> unsolvedReports =
+      await reportService.getUnsolvedReports(animalKind);
 
-    if (currentLocation != null) {
-      unsolvedReports = locationUtil.sortReportsByDistanceFromLocation(
-          unsolvedReports, currentLocation);
+      if (currentLocation != null) {
+        unsolvedReports = locationUtil.sortReportsByDistanceFromLocation(
+            unsolvedReports, currentLocation);
+      }
+
+      setState(() {
+        reports = unsolvedReports;
+      });
+    } catch(e){
+      print('Error lazy: $e');
     }
-
-    setState(() {
-      reports = unsolvedReports;
-    });
   }
 
   void markLocation(LatLng location) {
