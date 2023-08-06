@@ -32,12 +32,12 @@ class ReportDetails {
               children: [
                 const Text('Report Details'),
                 const SizedBox(height: 10),
-                Text('Animal Kind: ${report.animalKind}'),
+                Text('Tipo de animal: ${report.animalKind}'),
                 const SizedBox(height: 10),
-                Text('Description: ${report.message ?? 'N/A'}'),
+                Text('Descrição: ${report.message ?? 'N/A'}'),
                 const SizedBox(height: 10),
                 Text(
-                    'Distancia: ${locationUtil.formatAndCalculateDistance(userLocation, report.location)}'),
+                    'Distância: ${locationUtil.formatAndCalculateDistance(userLocation, report.location)}'),
                 const SizedBox(height: 10),
                 Row(
                   children: [
@@ -75,7 +75,7 @@ class ReportDetails {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Close'),
+                  child: const Text('Fechar'),
                 ),
               ],
             ),
