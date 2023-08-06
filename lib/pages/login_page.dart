@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> checkOngExists(User user) async {
-    bool ongExists = await ongService.existOng(user);
+    bool ongExists = user.displayName != null;
 
     if (!context.mounted) return;
 
