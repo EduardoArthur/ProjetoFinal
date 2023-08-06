@@ -23,7 +23,7 @@ class _SearchReportsPageState extends State<SearchReportsPage> {
   final ReportService reportService = ReportService();
   final ConversionUtil conversionUtil = ConversionUtil();
   final LocationUtil locationUtil = LocationUtil();
-  final ReportDetails reportDetails = ReportDetails();
+  final GlobalKey<State> _dialogKey = GlobalKey<State>();
 
 // =============================================================================
 //                              Variables
@@ -94,10 +94,8 @@ class _SearchReportsPageState extends State<SearchReportsPage> {
                   subtitle: Text(
                       ' ${report.message}\n Distancia: ${locationUtil.formatAndCalculateDistance(currentLocation, report.location)}'),
                   onTap: () {
-                    markLocation(
-                        conversionUtil.geoPointToLatLng(report.location));
-                    reportDetails.openReportDetails(
-                        context, report, currentLocation, markers);
+                    markLocation(conversionUtil.geoPointToLatLng(report.location));
+                    ReportDetails(key: _dialogKey, onReportStatusChanged: _updateReportStatus).openReportDetails(context, report, currentLocation, markers, true);
                   },
                 );
               },
@@ -209,5 +207,9 @@ class _SearchReportsPageState extends State<SearchReportsPage> {
         ),
       ];
     });
+  }
+
+  void _updateReportStatus(Report report) {
+    ReportDetails(key: _dialogKey, onReportStatusChanged: _updateReportStatus).openReportDetails(context, report, currentLocation, markers, true);
   }
 }

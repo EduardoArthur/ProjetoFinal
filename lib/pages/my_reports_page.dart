@@ -26,7 +26,7 @@ class _MyReportsPageState extends State<MyReportsPage> {
   final ReportService reportService = ReportService();
   final ConversionUtil conversionUtil = ConversionUtil();
   final LocationUtil locationUtil = LocationUtil();
-  final ReportDetails reportDetails = ReportDetails();
+  final GlobalKey<State> _dialogKey = GlobalKey<State>();
 
 // =============================================================================
 //                              Variables
@@ -71,8 +71,8 @@ class _MyReportsPageState extends State<MyReportsPage> {
                     markLocation(
                         conversionUtil.geoPointToLatLng(report.location));
                     if(currentLocation != null) {
-                      reportDetails.openReportDetails(
-                          context, report, currentLocation!, markers);
+                      ReportDetails(key: _dialogKey, onReportStatusChanged: (Report) {}).openReportDetails(
+                          context, report, currentLocation!, markers, false);
                     }
                   },
                 );

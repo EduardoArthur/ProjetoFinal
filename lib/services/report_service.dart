@@ -27,30 +27,25 @@ class ReportService {
     // Adiciona denuncia ao banco
     final reportId = await reportRepository.addReport(report);
 
-    // if(user == null || user.id == null){
-    //   return;
-    // }
-    //
-    // var updateList = user.reports;
-    //
-    // final updates = <String, dynamic>{
-    //   "id": reportId,
-    //   "timestamp": report.timestamp,
-    //   "solved": report.solved
-    // };
-    //
-    // // Adiciona na lista de denuncias
-    // updateList ??= [];
-    // updateList.add(updates);
-    //
-    // final field = <String, dynamic>{
-    //   "reports": updateList,
-    // };
-    //
-    // // Atualiza usuario com a nova lista de denuncias
-    // if(user.id != null) {
-    //   await userRepository.updateUser(user.id!, field);
-    // }
+    final field = <String, dynamic>{
+           "id": reportId,
+    };
+
+    await reportRepository.updateReport(reportId, field);
+
+  }
+
+  setSolvedReport(Report report, bool solved) async {
+
+    FirebaseAuth _auth = FirebaseAuth.instance;
+
+    final field = <String, dynamic>{
+      "solved": solved,
+      "ongId": _auth.currentUser?.displayName,
+    };
+
+    await reportRepository.updateReport(report.id!, field);
+
   }
 
   Future<List<Report>> getUnsolvedReports(AnimalKind? animalKind) async {

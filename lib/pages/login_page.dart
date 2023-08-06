@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tcc/pages/cadastro_ong_page.dart';
+import 'package:tcc/pages/ong_home_page.dart';
 import 'package:tcc/pages/report_lost_animal_page.dart';
-
-import '../services/auth_service.dart';
+import 'package:tcc/pages/home_page.dart';
+import 'package:tcc/services/ong_service.dart';
+import 'package:tcc/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -15,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   final email = TextEditingController();
   final senha = TextEditingController();
+  final ongService = OngService();
 
   bool isLogin = true;
   late String titulo;
@@ -22,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   late String toggleButton;
   bool loading = false;
   final String loginAnonimo = "Denuncia Anonima";
+  final String loginOng = "Cadastrar ONG";
 
   @override
   void initState() {
@@ -47,23 +53,54 @@ class _LoginPageState extends State<LoginPage> {
   login() async {
     setState(() => loading = true);
     try {
-      await context.read<AuthService>().login(email.text, senha.text);
+      AuthService auth = context.read<AuthService>();
 
+      await auth.login(email.text, senha.text);
+
+      checkOngExists(auth.usuario!);
     } on AuthException catch (e) {
-      setState(() => loading = false);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message)));
+    } finally {
+      if (!context.mounted) return;
+      setState(() => loading = false);
+    }
+  }
+
+  Future<void> checkOngExists(User user) async {
+    bool ongExists = await ongService.existOng(user);
+
+    if (!context.mounted) return;
+
+    if (ongExists) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          // ONG home
+          builder: (context) => OngHomePage(),
+        ),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      );
     }
   }
 
   registrar() async {
     setState(() => loading = true);
     try {
-      await context.read<AuthService>().registrar(email.text, senha.text);
+      AuthService auth = context.read<AuthService>();
+      await auth.registrar(email.text, senha.text);
+      checkOngExists(auth.usuario!);
     } on AuthException catch (e) {
-      setState(() => loading = false);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message)));
+    } finally {
+      setState(() => loading = false);
     }
   }
 
@@ -80,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Text(
                   titulo,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
                     letterSpacing: -1.5,
@@ -90,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: EdgeInsets.all(24),
                   child: TextFormField(
                     controller: email,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Email',
                     ),
@@ -105,11 +142,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding:
-                  EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
                   child: TextFormField(
                     controller: senha,
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Senha',
                     ),
@@ -139,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: (loading)
                           ? [
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.all(16),
                           child: SizedBox(
                             width: 24,
@@ -177,6 +214,17 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   },
                   child: Text(loginAnonimo),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CadastroOngPage(),
+                      ),
+                    );
+                  },
+                  child: Text(loginOng),
                 ),
               ],
             ),

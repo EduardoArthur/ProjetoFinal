@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tcc/domain/enumeration/AnimalKind.dart';
 
 class Report {
   String animalKind;
@@ -9,6 +8,7 @@ class Report {
   String? message;
   bool solved;
   Timestamp? timestamp;
+  String? id;
 
   Report({
     required this.animalKind,
@@ -37,7 +37,7 @@ class Report {
 
     final data = snapshot.data() as Map<String, dynamic>?;
 
-    return Report(
+    Report report = Report(
       animalKind: data?['animalKind'],
       userId: data?['userId'],
       ongId: data?['ongId'],
@@ -46,6 +46,10 @@ class Report {
       solved: data?['solved'] ?? false,
       timestamp: data?['timestamp'],
     );
+
+    report.id = data?['id'];
+
+    return report;
   }
 
   Map<String, dynamic> toFirestore() {

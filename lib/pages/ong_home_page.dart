@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tcc/pages/login_page.dart';
 
+import 'package:tcc/pages/search_reports_page.dart';
 import 'package:tcc/pages/my_reports_page.dart';
 import 'package:tcc/pages/report_lost_animal_page.dart';
 import 'package:tcc/services/auth_service.dart';
 
-class HomePage extends StatelessWidget {
+class OngHomePage extends StatelessWidget {
 
 // =============================================================================
 //                               Constants
@@ -42,7 +43,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Main Menu'),
+        title: const Text('Menu ONG'),
       ),
       body: Center(
         child: Column(
@@ -51,7 +52,7 @@ class HomePage extends StatelessWidget {
             // Buttons
             reportarAnimal(context),
             const SizedBox(height: sizedBoxHeight),
-            mostrarLista(context),
+            exibirDenuncias(context),
             const SizedBox(height: sizedBoxHeight),
             logOut(context),
           ],
@@ -92,13 +93,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget mostrarLista(BuildContext context) {
+  Widget exibirDenuncias(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MyReportsPage(),
+            builder: (context) => SearchReportsPage(),
           ),
         );
       },
@@ -110,11 +111,11 @@ class HomePage extends StatelessWidget {
         ),
       ),
       icon: const Icon(
-        Icons.report,
+        Icons.search,
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(labelMyReportsPage,
+      label: const Text(labelSearchReportsPage,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,
@@ -129,12 +130,12 @@ class HomePage extends StatelessWidget {
       onPressed: () {
         context.read<AuthService>().logout();
         Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LoginPage(),
-        ),
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ),
         );
-        },
+      },
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
         backgroundColor: Colors.red,

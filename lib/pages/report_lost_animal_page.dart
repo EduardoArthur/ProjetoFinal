@@ -61,7 +61,7 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
       body: Stack(
         children: [
           displayMap(),
-          commonButtons.displayHomeButton(context),
+          commonButtons.displayHomeButton(context, user),
           if (showButton) displayReportButton(),
           if (showForm) showReportDialog(context, user),
         ],
