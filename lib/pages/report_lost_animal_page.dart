@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:location/location.dart';
@@ -114,11 +116,13 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
 
   Widget showReportDialog(BuildContext context, User? user) {
     return ReportDialog(
-      onSubmit: (selectedAnimalKind, description) {
+      onSubmit: (selectedAnimalKind, description, imgUrl) async{
+
+        String urlFirebase = await uploadImageToFirebase(imgUrl);
 
         // Build and save a new report
         Report report = reportService.buildNewReport(
-          user, markers.last.point, selectedAnimalKind!, description);
+          user, markers.last.point, selectedAnimalKind, description, urlFirebase);
         reportService.createNewReport(report, user);
 
         // Close the dialog
@@ -222,6 +226,23 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
       }
     } catch (e) {
       print('Error getting current location: $e');
+    }
+  }
+
+  // Upload Image to firebase
+  Future<String> uploadImageToFirebase(String imageFile) async {
+    try {
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference reference = FirebaseStorage.instance.ref().child('images/$fileName');
+      UploadTask uploadTask = reference.putFile(File(imageFile));
+
+      TaskSnapshot taskSnapshot = await uploadTask;
+      String imageUrl = await taskSnapshot.ref.getDownloadURL();
+
+      return imageUrl;
+    } catch (e) {
+      print('Error uploading image to Firebase: $e');
+      return '';
     }
   }
 

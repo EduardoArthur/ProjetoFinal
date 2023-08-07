@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:tcc/domain/enumeration/AnimalKind.dart';
 
 class ReportDialog extends StatefulWidget {
-  final Function(AnimalKind?, String) onSubmit;
+  final Function(AnimalKind?, String, String) onSubmit;
   final VoidCallback onCancel;
 
   ReportDialog({required this.onSubmit, required this.onCancel});
@@ -15,13 +19,17 @@ class ReportDialog extends StatefulWidget {
 class _ReportDialogState extends State<ReportDialog> {
   AnimalKind? selectedAnimalKind;
   String description = '';
+  String imageUrl = '';
 
   final _formKey = GlobalKey<FormState>();
 
   void submitForm() {
     if (_formKey.currentState?.validate() ?? false) {
       // Call the callback function provided by the MapService
-      widget.onSubmit(selectedAnimalKind, description);
+      widget.onSubmit(selectedAnimalKind, description, imageUrl);
+      // if(imageUrl.isNotEmpty) {
+      //   uploadImageToFirebase(imageUrl);
+      // }
 
       // Reset the form after submission if needed
       _formKey.currentState?.reset();
@@ -49,6 +57,8 @@ class _ReportDialogState extends State<ReportDialog> {
                 animalKindDropdownField(),
                 const SizedBox(height: 16.0),
                 descriptionFormField(),
+                const SizedBox(height: 16.0),
+                uploadPhotoButton(),
                 const SizedBox(height: 16.0),
                 submitFormRow(),
               ],
@@ -108,6 +118,20 @@ class _ReportDialogState extends State<ReportDialog> {
     );
   }
 
+  Widget uploadPhotoButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ElevatedButton(
+          onPressed: _pickImage,
+          child: Text('Anexar Foto'),
+        ),
+        if(imageUrl.isNotEmpty)
+          Image.file(File(imageUrl), width: 50, height: 50),
+      ],
+    );
+  }
+
 // =============================================================================
 //                        Submit and Cancel buttons
 // =============================================================================
@@ -130,4 +154,24 @@ class _ReportDialogState extends State<ReportDialog> {
       ],
     );
   }
+
+  Future<void> _pickImage() async {
+    final permissionStatus = await Permission.storage.request();
+
+    if (permissionStatus.isGranted) {
+      final picker = ImagePicker();
+      final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedImage != null) {
+        setState(() {
+          imageUrl = pickedImage.path;
+        });
+      }
+    } else {
+      // Handle permission denied
+    }
+  }
+
+
+
 }

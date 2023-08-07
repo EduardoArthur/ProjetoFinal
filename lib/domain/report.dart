@@ -9,6 +9,7 @@ class Report {
   bool solved;
   Timestamp? timestamp;
   String? id;
+  String? imgUrl;
 
   Report({
     required this.animalKind,
@@ -18,6 +19,7 @@ class Report {
     this.message,
     this.solved = false,
     this.timestamp,
+    this.imgUrl,
   });
 
   factory Report.fromMap(Map<String, dynamic>? data) {
@@ -30,6 +32,7 @@ class Report {
       message: data?['message'],
       solved: data?['solved'] ?? false,
       timestamp: data?['timestamp'],
+      imgUrl: data?['imgUrl'],
     );
   }
 
@@ -45,6 +48,7 @@ class Report {
       message: data?['message'],
       solved: data?['solved'] ?? false,
       timestamp: data?['timestamp'],
+      imgUrl: data?['imgUrl'],
     );
 
     report.id = data?['id'];
@@ -61,6 +65,7 @@ class Report {
       'message': message,
       'solved': solved,
       'timestamp': timestamp,
+      'imgUrl': imgUrl,
     };
   }
 }

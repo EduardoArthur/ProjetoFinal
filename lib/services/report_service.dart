@@ -10,15 +10,16 @@ class ReportService {
   final reportRepository = ReportRepository();
 
   // Metodo para gerar timestamp, ids, etc..
-  Report buildNewReport(User? user, LatLng location, AnimalKind animalKind, String message){
+  Report buildNewReport(User? user, LatLng location, AnimalKind? animalKind, String message, String imgUrl){
 
     var geoPoint = GeoPoint(location.latitude, location.longitude);
 
-    Report report = Report(animalKind: animalKind.name, location: geoPoint);
+    Report report = Report(animalKind: animalKind != null ? animalKind.name : AnimalKind.Other.name, location: geoPoint);
 
     report.userId = user?.uid;
     report.message = message;
     report.timestamp = Timestamp.now();
+    report.imgUrl = imgUrl;
 
     return report;
   }
