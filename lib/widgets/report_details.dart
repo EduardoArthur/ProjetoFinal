@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:location/location.dart';
+import 'package:tcc/services/push_notification_service.dart';
 import 'package:tcc/services/report_service.dart';
 import 'package:tcc/util/conversion_util.dart';
 import 'package:tcc/util/location_util.dart';
@@ -15,6 +16,9 @@ class ReportDetails {
   ReportService reportService = ReportService();
   final Function(Report) onReportStatusChanged;
   final GlobalKey<State> key;
+  PushNotificationService pushNotificationService = PushNotificationService();
+  final title = "Resgate Concluido!";
+  String message = "Parabéns! Graças a sua ajuda, a ONG realizou o resgate do animal reportado com sucesso";
 
   ReportDetails({required this.key, required this.onReportStatusChanged});
 

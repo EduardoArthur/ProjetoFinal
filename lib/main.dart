@@ -8,6 +8,7 @@ import 'config/app_config.dart';
 void main() async {
   await SystemConfig.initialize();
   // await SystemConfig.runTests();
+  SystemConfig.notificationConfig();
   runApp(
     MultiProvider(
       providers: [
