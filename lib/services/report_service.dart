@@ -14,7 +14,7 @@ class ReportService {
 
     var geoPoint = GeoPoint(location.latitude, location.longitude);
 
-    Report report = Report(animalKind: animalKind != null ? animalKind.name : AnimalKind.Other.name, location: geoPoint);
+    Report report = Report(animalKind: animalKind != null ? animalKind.name : AnimalKind.Outros.name, location: geoPoint);
 
     report.userId = user?.uid;
     report.message = message;

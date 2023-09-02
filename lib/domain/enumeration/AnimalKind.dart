@@ -1,5 +1,5 @@
 enum AnimalKind {
-  Dog,
-  Cat,
-  Other,
+  Cachorro,
+  Gato,
+  Outros,
 }
