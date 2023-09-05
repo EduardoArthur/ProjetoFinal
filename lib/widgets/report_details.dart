@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:location/location.dart';
-import 'package:tcc/services/report_service.dart';
-import 'package:tcc/util/conversion_util.dart';
-import 'package:tcc/util/location_util.dart';
-import 'package:tcc/util/map_util.dart';
+import '../services/report_service.dart';
+import '../util/conversion_util.dart';
+import '../util/location_util.dart';
+import '../util/map_util.dart';
 
 import '../domain/report.dart';
 

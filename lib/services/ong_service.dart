@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tcc/domain/ong.dart';
-import 'package:tcc/repository/ong_repository.dart';
+import '../domain/ong.dart';
+import '../repository/ong_repository.dart';
 
 class OngService {
 

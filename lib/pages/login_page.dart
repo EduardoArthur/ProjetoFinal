@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tcc/pages/cadastro_ong_page.dart';
-import 'package:tcc/pages/ong_home_page.dart';
-import 'package:tcc/pages/report_lost_animal_page.dart';
-import 'package:tcc/pages/home_page.dart';
-import 'package:tcc/services/ong_service.dart';
-import 'package:tcc/services/auth_service.dart';
+import '../pages/cadastro_ong_page.dart';
+import '../pages/ong_home_page.dart';
+import '../pages/report_lost_animal_page.dart';
+import '../pages/home_page.dart';
+import '../services/ong_service.dart';
+import '../services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);

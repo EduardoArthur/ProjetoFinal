@@ -7,13 +7,13 @@ import 'package:location/location.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tcc/domain/report.dart';
+import '../domain/report.dart';
 
-import 'package:tcc/services/report_service.dart';
+import '../services/report_service.dart';
 import '../services/auth_service.dart';
 
-import 'package:tcc/widgets/common_buttons.dart';
-import 'package:tcc/widgets/report_dialog.dart';
+import '../widgets/common_buttons.dart';
+import '../widgets/report_dialog.dart';
 
 class ReportLostAnimalPage extends StatefulWidget {
   @override

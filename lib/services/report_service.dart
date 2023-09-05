@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:latlong2/latlong.dart';
 
-import 'package:tcc/domain/enumeration/AnimalKind.dart';
-import 'package:tcc/domain/report.dart';
-import 'package:tcc/repository/report_repository.dart';
+import '../domain/enumeration/AnimalKind.dart';
+import '../domain/report.dart';
+import '../repository/report_repository.dart';
 
 class ReportService {
   final reportRepository = ReportRepository();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tcc/pages/login_page.dart';
-import 'package:tcc/services/auth_service.dart';
+import '../pages/login_page.dart';
+import '../services/auth_service.dart';
 
 import 'config/app_config.dart';
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TCC',
+      title: 'Pet Resgate',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

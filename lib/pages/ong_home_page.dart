@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tcc/pages/login_page.dart';
+import '../pages/login_page.dart';
 
-import 'package:tcc/pages/search_reports_page.dart';
-import 'package:tcc/pages/my_reports_page.dart';
-import 'package:tcc/pages/report_lost_animal_page.dart';
-import 'package:tcc/services/auth_service.dart';
+import '../pages/search_reports_page.dart';
+import '../pages/my_reports_page.dart';
+import '../pages/report_lost_animal_page.dart';
+import '../services/auth_service.dart';
 
 class OngHomePage extends StatelessWidget {
 

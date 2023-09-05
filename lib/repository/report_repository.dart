@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
-import 'package:tcc/domain/enumeration/AnimalKind.dart';
+import '../domain/enumeration/AnimalKind.dart';
 
-import 'package:tcc/domain/report.dart';
+import '../domain/report.dart';
 
 class ReportRepository {
   final CollectionReference reportsCollection =

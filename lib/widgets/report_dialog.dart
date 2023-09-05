@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:tcc/domain/enumeration/AnimalKind.dart';
+import '../domain/enumeration/AnimalKind.dart';
 
 class ReportDialog extends StatefulWidget {
   final Function(AnimalKind?, String, String) onSubmit;
@@ -27,9 +27,6 @@ class _ReportDialogState extends State<ReportDialog> {
     if (_formKey.currentState?.validate() ?? false) {
       // Call the callback function provided by the MapService
       widget.onSubmit(selectedAnimalKind, description, imageUrl);
-      // if(imageUrl.isNotEmpty) {
-      //   uploadImageToFirebase(imageUrl);
-      // }
 
       // Reset the form after submission if needed
       _formKey.currentState?.reset();

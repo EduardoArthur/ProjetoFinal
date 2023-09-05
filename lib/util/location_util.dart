@@ -3,7 +3,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location/location.dart';
 
-import 'package:tcc/util/conversion_util.dart';
+import '../util/conversion_util.dart';
 
 import '../domain/report.dart';
 

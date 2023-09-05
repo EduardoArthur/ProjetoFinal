@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:tcc/domain/ong.dart';
+import '../domain/ong.dart';
 
 class OngRepository {
   final CollectionReference ongsCollection =

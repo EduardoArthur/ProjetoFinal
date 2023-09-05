@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
-import 'package:tcc/domain/report.dart';
-import 'package:tcc/services/report_service.dart';
+import '../domain/report.dart';
+import '../services/report_service.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:tcc/util/conversion_util.dart';
-import 'package:tcc/util/location_util.dart';
-import 'package:tcc/widgets/report_details.dart';
+import '../util/conversion_util.dart';
+import '../util/location_util.dart';
+import '../widgets/report_details.dart';
 
 import '../domain/enumeration/AnimalKind.dart';
 
