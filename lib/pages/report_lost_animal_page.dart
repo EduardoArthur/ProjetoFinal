@@ -12,7 +12,8 @@ import '../domain/report.dart';
 import '../services/report_service.dart';
 import '../services/auth_service.dart';
 
-import '../widgets/common_buttons.dart';
+import '../widgets/common_widgets.dart';
+import '../widgets/pop_ups.dart';
 import '../widgets/report_dialog.dart';
 
 class ReportLostAnimalPage extends StatefulWidget {
@@ -27,7 +28,9 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
 // =============================================================================
 
   final reportService = ReportService();
-  final commonButtons = CommonButtons();
+  final commonButtons = CommonWidgets();
+  final popUps = PopUps();
+
 
 // =============================================================================
 //                              Variables
@@ -37,6 +40,7 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
   List<Marker> markers = [];
   bool showForm = false;
   bool showButton = true;
+  bool isLoading = false;
 
 // =============================================================================
 //                          Init State and Build
@@ -46,6 +50,7 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
   void initState() {
     super.initState();
     getCurrentLocation();
+    popUps.showMapInstructions(context);
   }
 
   @override
@@ -55,7 +60,7 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
         ? buildMap(context, auth.usuario)
         : const Center(
         child:
-        CircularProgressIndicator()); // Show a progress indicator while fetching the location
+        CircularProgressIndicator());
   }
 
   Widget buildMap(BuildContext context, User? user) {
@@ -115,8 +120,15 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
 // =============================================================================
 
   Widget showReportDialog(BuildContext context, User? user) {
-    return ReportDialog(
-      onSubmit: (selectedAnimalKind, description, imgUrl) async{
+    return isLoading ?
+    const Center(child: CircularProgressIndicator())
+    :
+    ReportDialog(
+      onSubmit: (selectedAnimalKind, description, imgUrl) async {
+
+        setState(() {
+          isLoading = true;
+        });
 
         String urlFirebase = await uploadImageToFirebase(imgUrl);
 
@@ -124,6 +136,10 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
         Report report = reportService.buildNewReport(
           user, markers.last.point, selectedAnimalKind, description, urlFirebase);
         reportService.createNewReport(report, user);
+
+        setState(() {
+          isLoading = false;
+        });
 
         // Close the dialog
         closeForm();
@@ -140,7 +156,7 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
   void showSuccessMessage(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Denuncia registrada com sucesso!'),
+        content: Text('Caso registrado com sucesso!'),
         backgroundColor: Colors.green,
       ),
     );
@@ -168,7 +184,7 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
             },
           ),
         ),
-        child: const Text('Denunciar'),
+        child: const Text('Reportar'),
       ),
     );
   }

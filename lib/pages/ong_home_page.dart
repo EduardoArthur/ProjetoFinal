@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../pages/login_page.dart';
 
@@ -6,12 +7,16 @@ import '../pages/search_reports_page.dart';
 import '../pages/my_reports_page.dart';
 import '../pages/report_lost_animal_page.dart';
 import '../services/auth_service.dart';
+import '../widgets/common_widgets.dart';
 
 class OngHomePage extends StatelessWidget {
 
 // =============================================================================
 //                               Constants
 // =============================================================================
+
+  // Widgets
+  final commonWidgets = CommonWidgets();
 
   // Fonts
   static const fontSize = 18.0;
@@ -30,9 +35,10 @@ class OngHomePage extends StatelessWidget {
 
   // Labels
   static const labelReportLostAnimalPage = 'Reportar Animal Abandonado';
-  static const labelSearchReportsPage    = 'Buscar Denuncias';
-  static const labelMyReportsPage        = 'Minhas Denuncias';
-  static const labelLogOut               = 'Sair';
+  static const labelSearchReportsPage    = 'Buscar Casos';
+  static const labelMyReportsPage        = 'Meus Casos';
+  static const labelExit                 = 'Sair';
+  static const labelLogOut               = 'Log out';
 
 
 // =============================================================================
@@ -47,14 +53,21 @@ class OngHomePage extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            commonWidgets.showLogo(200, 200),
             // Buttons
             reportarAnimal(context),
             const SizedBox(height: sizedBoxHeight),
             exibirDenuncias(context),
             const SizedBox(height: sizedBoxHeight),
-            logOut(context),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                exit(context),
+                logOut(context),
+              ],
+            ),
           ],
         ),
       ),
@@ -116,6 +129,33 @@ class OngHomePage extends StatelessWidget {
         color: labelColor,
       ),
       label: const Text(labelSearchReportsPage,
+        style: TextStyle(
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+          color: labelColor,
+        ),
+      ),
+    );
+  }
+
+  Widget exit(BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        SystemNavigator.pop();
+      },
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        backgroundColor: Colors.red,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      ),
+      icon: const Icon(
+        Icons.close,
+        size: iconSize,
+        color: labelColor,
+      ),
+      label: const Text(labelExit,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,

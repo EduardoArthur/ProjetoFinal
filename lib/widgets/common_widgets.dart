@@ -6,7 +6,9 @@ import '../pages/ong_home_page.dart';
 import '../pages/home_page.dart';
 
 
-class CommonButtons {
+class CommonWidgets {
+
+  final logoLocation = 'assets/PetResgate.png';
 
   void navigateToMainMenuScreen(BuildContext context, User? user) {
     if (user == null){
@@ -40,6 +42,20 @@ class CommonButtons {
         ),
         child: const Icon(Icons.arrow_back),
       ),
+    );
+  }
+
+  Widget showLogo(double width, double height){
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Image.asset(
+          logoLocation,
+          width: width,
+          height: height,
+        ),
+      ],
     );
   }
 

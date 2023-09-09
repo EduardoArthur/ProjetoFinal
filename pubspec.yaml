@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.3
+version: 1.0.4
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
@@ -50,6 +50,11 @@ dependencies:
   # Permissoes
   permission_handler: ^10.4.3
 
+  # Formatar data
+  intl: 0.18.1
+
+  # Persistir informacoes
+  shared_preferences: 2.2.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -76,6 +81,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/PetResgate.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

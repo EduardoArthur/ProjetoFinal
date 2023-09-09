@@ -4,6 +4,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:intl/intl.dart';
 
 import '../domain/report.dart';
 import '../domain/enumeration/AnimalKind.dart';
@@ -56,7 +57,7 @@ class _MyReportsPageState extends State<MyReportsPage> {
     getUser();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Minhas Denuncias'),
+        title: const Text('Meus Casos'),
       ),
       body: Column(
         children: [
@@ -71,7 +72,7 @@ class _MyReportsPageState extends State<MyReportsPage> {
                     style: const TextStyle(),
                   ),
                   subtitle: Text(
-                      ' ${report.message}\n Distancia: ${locationUtil.formatAndCalculateDistance(currentLocation!, report.location)}'),
+                      ' ${DateFormat('dd/MM/yyyy HH:mm:ss').format(report.timestamp!.toDate())} \n ${report.message}\n Distância: ${locationUtil.formatAndCalculateDistance(currentLocation!, report.location)}'),
                   onTap: () {
                     markLocation(
                         conversionUtil.geoPointToLatLng(report.location));

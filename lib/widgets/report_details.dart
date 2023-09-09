@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import '../services/report_service.dart';
 import '../util/conversion_util.dart';
@@ -30,7 +31,9 @@ class ReportDetails {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Detalhes da denúncia'),
+                const Text('Detalhes do Registro'),
+                const SizedBox(height: 10),
+                Text('Data reportada: ${DateFormat('dd/MM/yyyy HH:mm:ss').format(report.timestamp!.toDate())}'),
                 const SizedBox(height: 10),
                 Text('Tipo de animal: ${report.animalKind}'),
                 const SizedBox(height: 10),

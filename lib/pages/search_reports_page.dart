@@ -47,7 +47,7 @@ class _SearchReportsPageState extends State<SearchReportsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Buscar Denuncias'),
+        title: const Text('Buscar Casos'),
       ),
       body: Column(
         children: [
@@ -65,7 +65,7 @@ class _SearchReportsPageState extends State<SearchReportsPage> {
                       children: const [
                         Icon(Icons.search),
                         SizedBox(width: 8),
-                        Text('Buscar Todas'),
+                        Text('Buscar Todos'),
                       ],
                     ),
                   ),

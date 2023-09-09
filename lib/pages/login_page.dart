@@ -1,3 +1,4 @@
+import 'package:PetResgate/widgets/pop_ups.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   final email = TextEditingController();
   final senha = TextEditingController();
   final ongService = OngService();
+  final popUps = PopUps();
 
   bool isLogin = true;
   bool rememberMe = false;
@@ -27,13 +29,14 @@ class _LoginPageState extends State<LoginPage> {
   late String actionButton;
   late String toggleButton;
   bool loading = false;
-  final String loginAnonimo = "Denuncia Anonima";
+  final String loginAnonimo = "Reportar Anonimamente";
   final String loginOng = "Cadastrar ONG";
 
   @override
   void initState() {
     super.initState();
     setFormAction(true);
+    popUps.showStartPopup(context);
   }
 
   setFormAction(bool acao) {
@@ -110,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(top: 100),
+          padding: const EdgeInsets.only(top: 100),
           child: Form(
             key: formKey,
             child: Column(
@@ -221,12 +224,12 @@ class _LoginPageState extends State<LoginPage> {
         )
       ]
           : [
-        Icon(Icons.check),
+        const Icon(Icons.check),
         Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Text(
             actionButton,
-            style: TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
           ),
         ),
       ],
@@ -270,7 +273,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget rememberMeCheckBox(){
     return CheckboxListTile(
-      title: Text("Lembrar de Mim"),
+      title: const Text("Lembrar de Mim"),
       value: rememberMe,
       onChanged: (value) {
         setState(() {
