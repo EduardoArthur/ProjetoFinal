@@ -58,17 +58,17 @@ class _ReportLostAnimalPageState extends State<ReportLostAnimalPage> {
     AuthService auth = Provider.of<AuthService>(context);
     return currentLocation != null
         ? buildMap(context, auth.usuario)
-        : const Center(
-        child:
-        CircularProgressIndicator());
+        : const Center( child: CircularProgressIndicator());
   }
 
   Widget buildMap(BuildContext context, User? user) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Localizar Animal'),
+      ),
       body: Stack(
         children: [
           displayMap(),
-          commonButtons.displayHomeButton(context, user),
           if (showButton) displayReportButton(),
           if (showForm) showReportDialog(context, user),
         ],

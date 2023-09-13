@@ -9,7 +9,6 @@ import '../services/auth_service.dart';
 import '../widgets/common_widgets.dart';
 
 class HomePage extends StatelessWidget {
-
 // =============================================================================
 //                               Constants
 // =============================================================================
@@ -33,11 +32,10 @@ class HomePage extends StatelessWidget {
 
   // Labels
   static const labelReportLostAnimalPage = 'Reportar Animal Abandonado';
-  static const labelSearchReportsPage    = 'Buscar Casos';
-  static const labelMyReportsPage        = 'Meus Casos';
-  static const labelExit                 = 'Sair';
-  static const labelLogOut               = 'Log out';
-
+  static const labelSearchReportsPage = 'Buscar Casos';
+  static const labelMyReportsPage = 'Meus Casos';
+  static const labelExit = 'Sair';
+  static const labelLogOut = 'Log out';
 
 // =============================================================================
 //                              Build
@@ -49,24 +47,26 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Menu Principal'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            commonWidgets.showLogo(200, 200),
-            // Buttons
-            reportarAnimal(context),
-            const SizedBox(height: sizedBoxHeight),
-            mostrarLista(context),
-            const SizedBox(height: sizedBoxHeight),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                exit(context),
-                logOut(context),
-              ],
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              commonWidgets.showLogo(200, 200),
+              // Buttons
+              reportarAnimal(context),
+              const SizedBox(height: sizedBoxHeight),
+              mostrarLista(context),
+              const SizedBox(height: sizedBoxHeight),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  exit(context),
+                  logOut(context),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -83,7 +83,8 @@ class HomePage extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        padding: const EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: horizontalPadding),
         backgroundColor: buttonColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -94,7 +95,8 @@ class HomePage extends StatelessWidget {
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(labelReportLostAnimalPage,
+      label: const Text(
+        labelReportLostAnimalPage,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,
@@ -115,7 +117,8 @@ class HomePage extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        padding: const EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: horizontalPadding),
         backgroundColor: buttonColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -126,7 +129,8 @@ class HomePage extends StatelessWidget {
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(labelMyReportsPage,
+      label: const Text(
+        labelMyReportsPage,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,
@@ -142,7 +146,8 @@ class HomePage extends StatelessWidget {
         SystemNavigator.pop();
       },
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        padding: const EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: horizontalPadding),
         backgroundColor: Colors.red,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -153,7 +158,8 @@ class HomePage extends StatelessWidget {
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(labelExit,
+      label: const Text(
+        labelExit,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,
@@ -168,14 +174,15 @@ class HomePage extends StatelessWidget {
       onPressed: () {
         context.read<AuthService>().logout();
         Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LoginPage(),
-        ),
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ),
         );
-        },
+      },
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        padding: const EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: horizontalPadding),
         backgroundColor: Colors.red,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -186,7 +193,8 @@ class HomePage extends StatelessWidget {
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(labelLogOut,
+      label: const Text(
+        labelLogOut,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,

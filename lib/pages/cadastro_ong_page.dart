@@ -11,10 +11,10 @@ class CadastroOngPage extends StatefulWidget {
 }
 
 class _CadastroOngPageState extends State<CadastroOngPage> {
-  TextEditingController _nomeController = TextEditingController();
-  TextEditingController _cnpjController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _senhaController = TextEditingController();
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _cnpjController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
   OngService ongService = OngService();
   bool _isLoading = false;
 
@@ -55,48 +55,48 @@ class _CadastroOngPageState extends State<CadastroOngPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cadastro de ONG'),
+        title: const Text('Cadastro de ONG'),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
                 controller: _nomeController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Nome da ONG',
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _cnpjController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'CNPJ',
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _senhaController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Senha',
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: _isLoading ? null : _cadastrarOng,
                 child: _isLoading
-                    ? CircularProgressIndicator()
-                    : Text('Cadastrar ONG'),
+                    ? const CircularProgressIndicator()
+                    : const Text('Cadastrar ONG'),
               ),
             ],
           ),

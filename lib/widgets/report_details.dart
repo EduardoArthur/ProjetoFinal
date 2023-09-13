@@ -27,7 +27,8 @@ class ReportDetails {
         return Dialog(
           child: Container(
             padding: const EdgeInsets.all(16),
-            child: Column(
+            child: SingleChildScrollView(
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -55,6 +56,7 @@ class ReportDetails {
               ],
             ),
           ),
+        ),
         );
       },
     );
@@ -85,7 +87,7 @@ class ReportDetails {
               Navigator.of(context).pop();
               onReportStatusChanged(report);
             },
-            child: const Text('Marcar como resolvido'),
+            child: const Text('Marcar como resolvido', overflow: TextOverflow.ellipsis),
           ),
       ],
     );

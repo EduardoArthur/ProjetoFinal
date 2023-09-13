@@ -10,7 +10,6 @@ import '../services/auth_service.dart';
 import '../widgets/common_widgets.dart';
 
 class OngHomePage extends StatelessWidget {
-
 // =============================================================================
 //                               Constants
 // =============================================================================
@@ -35,11 +34,10 @@ class OngHomePage extends StatelessWidget {
 
   // Labels
   static const labelReportLostAnimalPage = 'Reportar Animal Abandonado';
-  static const labelSearchReportsPage    = 'Buscar Casos';
-  static const labelMyReportsPage        = 'Meus Casos';
-  static const labelExit                 = 'Sair';
-  static const labelLogOut               = 'Log out';
-
+  static const labelSearchReportsPage = 'Buscar Casos';
+  static const labelMyReportsPage = 'Meus Casos';
+  static const labelExit = 'Sair';
+  static const labelLogOut = 'Log out';
 
 // =============================================================================
 //                              Build
@@ -51,24 +49,26 @@ class OngHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Menu ONG'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            commonWidgets.showLogo(200, 200),
-            // Buttons
-            reportarAnimal(context),
-            const SizedBox(height: sizedBoxHeight),
-            exibirDenuncias(context),
-            const SizedBox(height: sizedBoxHeight),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                exit(context),
-                logOut(context),
-              ],
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              commonWidgets.showLogo(200, 200),
+              // Buttons
+              reportarAnimal(context),
+              const SizedBox(height: sizedBoxHeight),
+              exibirDenuncias(context),
+              const SizedBox(height: sizedBoxHeight),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  exit(context),
+                  logOut(context),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -85,7 +85,8 @@ class OngHomePage extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        padding: const EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: horizontalPadding),
         backgroundColor: buttonColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -96,7 +97,8 @@ class OngHomePage extends StatelessWidget {
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(labelReportLostAnimalPage,
+      label: const Text(
+        labelReportLostAnimalPage,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,
@@ -117,7 +119,8 @@ class OngHomePage extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        padding: const EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: horizontalPadding),
         backgroundColor: buttonColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -128,7 +131,8 @@ class OngHomePage extends StatelessWidget {
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(labelSearchReportsPage,
+      label: const Text(
+        labelSearchReportsPage,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,
@@ -144,7 +148,8 @@ class OngHomePage extends StatelessWidget {
         SystemNavigator.pop();
       },
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        padding: const EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: horizontalPadding),
         backgroundColor: Colors.red,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -155,7 +160,8 @@ class OngHomePage extends StatelessWidget {
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(labelExit,
+      label: const Text(
+        labelExit,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,
@@ -177,7 +183,8 @@ class OngHomePage extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        padding: const EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: horizontalPadding),
         backgroundColor: Colors.red,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -188,7 +195,8 @@ class OngHomePage extends StatelessWidget {
         size: iconSize,
         color: labelColor,
       ),
-      label: const Text(labelLogOut,
+      label: const Text(
+        labelLogOut,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,

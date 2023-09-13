@@ -52,7 +52,7 @@ class _SearchReportsPageState extends State<SearchReportsPage> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
                 Expanded(

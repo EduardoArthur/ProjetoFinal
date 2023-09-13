@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget emailController(){
     return Padding(
-      padding: EdgeInsets.all(24),
+      padding: const EdgeInsets.all(24),
       child: TextFormField(
         controller: email,
         decoration: const InputDecoration(
@@ -191,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget loginButtonController(){
     return Padding(
-      padding: EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(24.0),
       child: ElevatedButton(
         onPressed: () {
           if (formKey.currentState!.validate()) {
