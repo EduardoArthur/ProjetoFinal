@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PopUps {
   static const mensagemBoasVindas =
-      "Este aplicativo foi desenvolvido por um aluno de ciência da computação como trabalho de conclusão de curso pela UERJ. \nSeu objetivo é que os usuários possam marcar em um mapa a localização do animal encontrado, junto com uma breve descrição e opcionalmente uma foto. \nAs ONGs têm acesso a todas as denúncias em aberto já feitas, por ordem de proximidade.As mesmas podem ser marcadas como resolvidas após o resgate ser concluído.";
+      "Este aplicativo foi desenvolvido por um aluno de ciência da computação como trabalho de conclusão de curso pela UERJ. \nSeu objetivo é que os usuários possam marcar em um mapa a localização do animal encontrado, junto com uma breve descrição e opcionalmente uma foto. \nAs ONGs têm acesso a todos os casos em aberto já feitos, por ordem de proximidade.As mesmas podem ser marcadas como resolvidas após o resgate ser concluído.";
 
   static const instrucoesMapa =
       'Use os dedos para mexer no mapa.\nAperte no mapa para marcar a localização e depois clique no botão Reportar no topo da tela';
