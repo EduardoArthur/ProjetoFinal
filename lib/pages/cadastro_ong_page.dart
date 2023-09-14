@@ -56,6 +56,7 @@ class _CadastroOngPageState extends State<CadastroOngPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cadastro de ONG'),
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Padding(
