@@ -1,35 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:tcc/services/map_service.dart';
+import 'package:provider/provider.dart';
+import '../pages/login_page.dart';
+import '../services/auth_service.dart';
 
 import 'config/app_config.dart';
 
 void main() async {
   await SystemConfig.initialize();
   // await SystemConfig.runTests();
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthService()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TCC',
+      title: 'Pet Resgate',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Map Demo'),
-      ),
-      body: MapService(), // Use the MapService widget as the body of the home page
+      home: LoginPage(),
     );
   }
 }
