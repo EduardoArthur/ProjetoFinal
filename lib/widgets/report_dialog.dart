@@ -119,9 +119,15 @@ class _ReportDialogState extends State<ReportDialog> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        ElevatedButton(
+        ElevatedButton.icon(
+          onPressed: _pickImageFromCamera,
+          label: const Text('Abrir Câmera'),
+          icon: const Icon(Icons.photo_camera),
+        ),
+        ElevatedButton.icon(
           onPressed: _pickImage,
-          child: Text('Anexar Foto'),
+          label: const Text('Anexar Foto'),
+          icon: const Icon(Icons.photo_library),
         ),
         if(imageUrl.isNotEmpty)
           Image.file(File(imageUrl), width: 50, height: 50),
@@ -168,6 +174,22 @@ class _ReportDialogState extends State<ReportDialog> {
     }
   }
 
+  Future<void> _pickImageFromCamera() async {
+    final cameraPermission = await Permission.camera.request();
 
+    if (!cameraPermission.isGranted) {
+      print("Permissão de câmera negada.");
+      return;
+    }
+
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedImage != null) {
+      setState(() {
+        imageUrl = pickedImage.path;
+      });
+    }
+  }
 
 }
