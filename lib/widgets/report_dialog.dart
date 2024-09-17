@@ -153,19 +153,18 @@ class _ReportDialogState extends State<ReportDialog> {
   }
 
   Future<void> _pickImage() async {
-    final permissionStatus = await Permission.storage.request();
+    if ( await Permission.photos.request().isGranted == false &&
+         await Permission.storage.request().isGranted == false ) {
+      print("Permissão negada.");
+      return;
+    }
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if (permissionStatus.isGranted) {
-      final picker = ImagePicker();
-      final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-
-      if (pickedImage != null) {
-        setState(() {
-          imageUrl = pickedImage.path;
-        });
-      }
-    } else {
-      // Handle permission denied
+    if (pickedFile != null) {
+      setState(() {
+        imageUrl = pickedFile.path;
+      });
     }
   }
 

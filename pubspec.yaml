@@ -37,28 +37,28 @@ dependencies:
   latlng: 1.0.0
 
   ## Database
-  firebase_core: 2.16.0
-  cloud_firestore: 4.9.2
-  firebase_auth: 4.10.0
-  firebase_storage: 11.2.7
+  firebase_core: 2.32.0
+  cloud_firestore: 4.17.5
+  firebase_auth: 4.20.0
+  firebase_storage: 11.7.7
   geoflutterfire2: 2.3.15
-  provider: 6.0.5
+  provider: 6.1.2
 
   # Upload de imagens
-  image_picker: 1.0.4
+  image_picker: 1.1.2
 
   # Permissoes
-  permission_handler: 11.0.0
+  permission_handler: 11.3.1
 
   # Formatar data
-  intl: 0.18.1
+  intl: 0.19.0
 
   # Persistir informacoes
-  shared_preferences: 2.2.1
+  shared_preferences: 2.3.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: 1.0.6
+  cupertino_icons: 1.0.8
 
 dev_dependencies:
   flutter_test:
@@ -69,7 +69,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: 2.0.3
+  flutter_lints: 4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
