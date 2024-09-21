@@ -1,3 +1,4 @@
+import 'package:PetResgate/widgets/pop_ups.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +37,7 @@ class HomePage extends StatelessWidget {
   static const labelMyReportsPage = 'Meus Casos';
   static const labelExit = 'Sair';
   static const labelLogOut = 'Log out';
+  static const labelDelete = 'Deletar meu usuário';
 
 // =============================================================================
 //                              Build
@@ -64,6 +66,7 @@ class HomePage extends StatelessWidget {
                 children: [
                   exit(context),
                   logOut(context),
+                  deleteUser(context)
                 ],
               ),
             ],
@@ -196,6 +199,36 @@ class HomePage extends StatelessWidget {
       ),
       label: const Text(
         labelLogOut,
+        style: TextStyle(
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+          color: labelColor,
+        ),
+      ),
+    );
+  }
+
+  Widget deleteUser(BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        PopUps popUps = Provider.of<PopUps>(context, listen: false);
+        popUps.deleteAlert(context);
+      },
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: horizontalPadding),
+        backgroundColor: Colors.red,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      ),
+      icon: const Icon(
+        Icons.delete,
+        size: iconSize,
+        color: labelColor,
+      ),
+      label: const Text(
+        labelDelete,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,

@@ -1,3 +1,4 @@
+import 'package:PetResgate/widgets/pop_ups.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../pages/login_page.dart';
@@ -12,6 +13,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
+        ChangeNotifierProvider(create: (context) => PopUps()),
       ],
       child: MyApp(),
     ),

@@ -62,4 +62,20 @@ class AuthService extends ChangeNotifier {
     await _auth.signOut();
     _getUser();
   }
+
+  deleteUser() async {
+    try {
+      if (usuario != null) {
+        await usuario!.delete(); // Deleta o usuário autenticado
+        logout(); // Desloga o usuário após a exclusão
+      } else {
+        throw AuthException('Nenhum usuário autenticado para deletar');
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        // Caso precise de login recente, a aplicação deve solicitar que o usuário faça login novamente
+        throw AuthException('O usuário precisa fazer login novamente para deletar a conta.');
+      }
+    }
+  }
 }
